@@ -7,7 +7,8 @@
   "author": "Gulshan Kumar <gulshan.kumar@equinox.com>",
   "license": "MIT",
   "scripts": {
-    "start": "yarn server:up",
+    "start": "yarn server:up && yarn prisma",
+    "prisma": "cd server/prisma/ && prisma deploy",
     "server:up": "nodemon server/index.js",
     "docker:up": "docker-compose up -d"
   },
