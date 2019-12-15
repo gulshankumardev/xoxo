@@ -1,0 +1,26 @@
+scalar Date
+
+type Query {
+  me: User
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  createdAt: Date!
+  updatedAt: Date!
+  posts: [Post!]!
+  likedPosts: [Post!]!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  description: String!
+  author: User!
+  likedBy: [User!]!
+  createdAt: Date!
+  updatedAt: Date!
+}

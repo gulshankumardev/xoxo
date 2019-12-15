@@ -1,0 +1,17 @@
+{
+  "name": "xoxo",
+  "version": "1.0.0",
+  "description": "full-stack graphql app with react",
+  "main": "index.js",
+  "repository": "https://github.com/designergulshan/xoxo.git",
+  "author": "Gulshan Kumar <gulshan.kumar@equinox.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn run server:up",
+    "server:up": "nodemon server/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "graphql-yoga": "^1.18.3"
+  }
+}
