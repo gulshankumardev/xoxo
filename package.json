@@ -7,8 +7,9 @@
   "author": "Gulshan Kumar <gulshan.kumar@equinox.com>",
   "license": "MIT",
   "scripts": {
-    "start": "yarn run server:up",
-    "server:up": "nodemon server/index.js"
+    "start": "yarn server:up",
+    "server:up": "nodemon server/index.js",
+    "docker:up": "docker-compose up -d"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
