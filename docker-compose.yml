@@ -12,7 +12,7 @@ services:
         # managementApiSecret: my-secret
         databases:
           default:
-            database: blogofile-db
+            database: xoxo
             connector: mongo
             uri: 'mongodb://admin:admin@mongo'
   mongo:
