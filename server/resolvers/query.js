@@ -9,6 +9,12 @@ const query = {
       updatedAt: new Date(),
     };
   },
+
+  users: async (parent, args, ctx, info) => {
+    const userInfo = ctx.prisma.users();
+
+    return userInfo;
+  },
 };
 
 module.exports = { query };
