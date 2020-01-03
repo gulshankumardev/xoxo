@@ -4,6 +4,15 @@
     "react/jsx-filename-extension": [
       1,
       { "extensions": [".jsx", ".test.js", ".stories.js"] }
+    ],
+    "react/jsx-props-no-spreading": [0],
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "labelComponents": ["label"],
+        "labelAttributes": ["htmlFor"],
+        "controlComponents": ["Text"]
+      }
     ]
   },
   "env": {

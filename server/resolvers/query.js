@@ -10,7 +10,7 @@ const query = {
     };
   },
 
-  users: async (parent, args, ctx, info) => {
+  users: async (parent, args, ctx) => {
     const userInfo = ctx.prisma.users();
 
     return userInfo;

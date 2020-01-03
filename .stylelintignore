@@ -1,0 +1,3 @@
+coverage/
+client/src/styles/*.css
+client/dist/*.css

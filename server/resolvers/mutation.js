@@ -22,7 +22,7 @@ const mutation = {
         token,
       };
     } catch (err) {
-      console.log('error-->', err);
+      return err;
     }
   },
   login: async (parent, { email, password }, ctx) => {
@@ -31,14 +31,12 @@ const mutation = {
 
     // user doesn't exist
     if (!user) {
-      console.log('user is not exist in the database');
-      return;
+      return 'user is not exist in the database';
     }
 
     const isValidPass = await validatePassword(password, user.password);
     if (!isValidPass) {
-      console.log('password incorrect');
-      return;
+      return 'password incorrect';
     }
 
     const token = createSignedToken(user.id);
