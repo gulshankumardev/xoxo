@@ -83,6 +83,7 @@ const config = {
     new webpack.SourceMapDevToolPlugin({}),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'client/src/index.html'),
+      favicon: 'favicon.ico',
     }),
     new MiniCssExtractPlugin({
       filename: devMode ? '[name].css' : '[name].[hash].css',

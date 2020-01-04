@@ -18,8 +18,22 @@ const createSignedToken = userId => {
 const validatePassword = async (plainTextPassword, hashedPassword) =>
   bcrypt.compare(plainTextPassword, hashedPassword);
 
+const getUserId = async context => {
+  const Authorization = context.request.get('Authorization');
+
+  if (Authorization) {
+    const token = Authorization.replace('Bearer ', '');
+
+    const { userId } = jwt.verify(token, SECRET);
+    return userId;
+  }
+
+  throw new Error('Not Authenticated!');
+};
+
 module.exports = {
   createEncryptedPassword,
   createSignedToken,
   validatePassword,
+  getUserId,
 };

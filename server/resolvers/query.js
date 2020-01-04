@@ -1,13 +1,10 @@
+const { getUserId } = require('../helpers');
+
 const query = {
-  me: () => {
-    return {
-      id: 'gk07',
-      name: 'Gulshan kumar',
-      email: 'kumar.gulshan80@gmail.com',
-      password: 's3cur3P@ssw0rd!',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+  me: async (parent, args, context) => {
+    const userId = await getUserId(context);
+    const user = await context.prisma.user({ id: userId });
+    return user;
   },
 
   users: async (parent, args, ctx) => {
