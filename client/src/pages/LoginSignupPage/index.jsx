@@ -1,9 +1,24 @@
 import React, { useRef } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useHistory } from 'react-router-dom';
+import { useMutation } from '@apollo/react-hooks';
+import { SIGNUP_MUTATION, LOGIN_MUTATION } from '../../gql/mutations';
+import Loader from '../../components/Loader';
+import Error from '../../components/Error';
 
 const LoginSignup = () => {
+  const history = useHistory();
   const location = useLocation();
   const isLogin = location.pathname === '/login';
+
+  // submit mutation hooks
+  const [submitMutation, { loading, error }] = useMutation(
+    isLogin ? LOGIN_MUTATION : SIGNUP_MUTATION,
+    {
+      onCompleted: () => {
+        history.push('/');
+      },
+    },
+  );
 
   // form fields references
   const nameField = useRef('');
@@ -13,23 +28,28 @@ const LoginSignup = () => {
 
   const onFormSubmit = e => {
     e.preventDefault();
-    console.log('on form submit -->');
 
-    console.log('name:', nameField && nameField.current.value);
-    console.log('email:', emailField && emailField.current.value);
-    console.log('password:', passwordField && passwordField.current.value);
-    console.log(
-      'confirmPassword:',
-      confirmPasswordField && confirmPasswordField.current.value,
-    );
+    submitMutation({
+      variables: {
+        ...(!isLogin && { name: nameField.current.value }),
+        email: emailField.current.value,
+        password: passwordField.current.value,
+      },
+    });
   };
 
   return (
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-md-8 col-lg-5">
-          <h3>{isLogin ? 'Login' : 'Sign Up'}</h3>
+          <h3>
+            {isLogin ? 'Login' : 'Sign Up'}
+            {loading && <Loader right small />}
+          </h3>
+
           <hr />
+          {error && <Error msg={error.message} />}
+
           <form onSubmit={onFormSubmit} noValidate>
             {!isLogin && (
               <div className="form-group">
@@ -80,7 +100,11 @@ const LoginSignup = () => {
                 />
               </div>
             )}
-            <button type="submit" className="btn btn-block btn-dark mt-4 mb-4">
+            <button
+              type="submit"
+              className="btn btn-block btn-dark mt-4 mb-4"
+              disabled={loading}
+            >
               {isLogin ? 'Sign In' : 'Register'}
             </button>
           </form>

@@ -22,21 +22,22 @@ const mutation = {
         token,
       };
     } catch (err) {
-      return err;
+      throw new Error(err);
     }
   },
+
   login: async (parent, { email, password }, ctx) => {
     // get user by email
     const user = await ctx.prisma.user({ email });
 
     // user doesn't exist
     if (!user) {
-      return 'user is not exist in the database';
+      throw new Error("Couldn't find your account.");
     }
 
     const isValidPass = await validatePassword(password, user.password);
     if (!isValidPass) {
-      return 'password incorrect';
+      throw new Error('Incorrect password.');
     }
 
     const token = createSignedToken(user.id);

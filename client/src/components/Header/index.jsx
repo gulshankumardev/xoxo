@@ -3,14 +3,9 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import logo from '../../media/images/logo.png';
 import USER_INFO_QUERY from '../../gql/queries';
-import Error from '../error';
-import Loader from '../loader';
 
 const Header = () => {
-  const { loading, error, data } = useQuery(USER_INFO_QUERY);
-
-  if (loading) return <Loader />;
-  if (error) return <Error msg={error.message} />;
+  const { data } = useQuery(USER_INFO_QUERY);
 
   const {
     me: { isLoggedIn },
