@@ -1,15 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import logo from '../../media/images/logo.png';
 import USER_INFO_QUERY from '../../gql/queries';
+import { LOGOUT_MUTATION } from '../../gql/mutations';
 
 const Header = () => {
   const { data } = useQuery(USER_INFO_QUERY);
+  const [requestToLogout] = useMutation(LOGOUT_MUTATION);
 
   const {
     me: { isLoggedIn },
   } = data;
+
+  const handleLogout = () => {
+    requestToLogout();
+  };
 
   return (
     <nav className="navbar navbar-expand navbar-light bd-navbar bg-light mb-5">
@@ -21,7 +27,11 @@ const Header = () => {
         <ul className="navbar-nav ml-auto">
           <li className="nav-item ml-2">
             {isLoggedIn ? (
-              <button type="button" className="btn btn-outline-dark">
+              <button
+                type="button"
+                className="btn btn-outline-dark"
+                onClick={handleLogout}
+              >
                 logout
               </button>
             ) : (
