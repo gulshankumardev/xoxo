@@ -1,1 +1,54 @@
 @import 'bootstrap/scss/bootstrap.scss';
+
+.post {
+  border-bottom: 1px dotted #ccc;
+  margin-bottom: 20px;
+
+  .btn-like {
+    top: -2px;
+    opacity: 0.5;
+    cursor: pointer;
+    font-size: 22px;
+    position: absolute;
+    background: none;
+    border: none;
+    padding: 0;
+    outline: none;
+
+    &.active,
+    &:hover {
+      opacity: 1;
+      color: #e53935;
+    }
+  }
+
+  .edit-btn {
+    margin-left: 10px;
+    font-size: 70%;
+    opacity: 0.5;
+  }
+
+  h4 {
+    &:hover {
+      .edit-btn {
+        opacity: 1;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.profile-pic {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #f2eee8;
+  margin-bottom: 10px;
+
+  img {
+    position: relative;
+    top: 40px;
+  }
+}

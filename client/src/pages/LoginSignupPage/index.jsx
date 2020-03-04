@@ -20,7 +20,7 @@ const LoginSignup = () => {
     },
   );
 
-  // form fields references
+  // form fields states
   const nameField = useRef('');
   const emailField = useRef('');
   const passwordField = useRef('');

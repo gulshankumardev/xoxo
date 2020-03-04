@@ -1,29 +1,17 @@
 import React from 'react';
+import { useQuery } from 'react-apollo';
+import Welcome from './Welcome';
+import { USER_INFO_QUERY } from '../../gql/queries';
+import Posts from '../Posts';
 
 const LandingPage = () => {
-  return (
-    <div className="container">
-      <div className="row">
-        <div className="col-12">
-          <div className="jumbotron">
-            <h1 className="display-4">Welcome!</h1>
+  const { data } = useQuery(USER_INFO_QUERY);
 
-            <p className="lead">
-              A fullstack web application with <mark>React</mark> and{' '}
-              <mark>GraphQL</mark> integration.
-            </p>
-            <hr className="my-4" />
-            <p className="text-muted">
-              <small>
-                Major dependencies: <mark>JavaScript</mark>, <mark>React</mark>,{' '}
-                <mark>GraphQL</mark> and <mark>MongoDB</mark>
-              </small>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  const {
+    me: { isLoggedIn },
+  } = data;
+
+  return isLoggedIn ? <Posts /> : <Welcome />;
 };
 
 export default LandingPage;

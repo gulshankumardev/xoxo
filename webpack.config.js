@@ -55,7 +55,7 @@ const config = {
         use: 'file-loader',
       },
       {
-        test: /\.png$/,
+        test: /\.(png|jpg|gif)$/,
         use: [
           {
             loader: 'url-loader',
@@ -77,6 +77,7 @@ const config = {
     contentBase: './client/dist',
     port: 3000,
     open: true,
+    // host: '0.0.0.0',
     historyApiFallback: true,
   },
   plugins: [

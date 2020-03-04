@@ -1,13 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import logo from '../../media/images/logo.png';
-import USER_INFO_QUERY from '../../gql/queries';
+import { USER_INFO_QUERY } from '../../gql/queries';
 import { LOGOUT_MUTATION } from '../../gql/mutations';
 
 const Header = () => {
+  const location = useLocation();
+  const history = useHistory();
   const { data } = useQuery(USER_INFO_QUERY);
-  const [requestToLogout] = useMutation(LOGOUT_MUTATION);
+  const [requestToLogout] = useMutation(LOGOUT_MUTATION, {
+    onCompleted() {
+      history.push('/');
+    },
+  });
+  const isCreatePost = location.pathname === '/create-post';
 
   const {
     me: { isLoggedIn },
@@ -23,25 +30,40 @@ const Header = () => {
         <img src={logo} alt="xoxo" height="28" />
       </Link>
 
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item ml-2">
-            {isLoggedIn ? (
-              <button
-                type="button"
-                className="btn btn-outline-dark"
-                onClick={handleLogout}
-              >
-                logout
-              </button>
-            ) : (
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
-            )}
+      {isLoggedIn && (
+        <ul className="navbar-nav">
+          <li className="nav-item mr-3">
+            <Link to="/profile" className="text-info nav-link">
+              <small>Profile</small>
+            </Link>
           </li>
         </ul>
-      </div>
+      )}
+
+      <ul className="navbar-nav ml-auto">
+        {isLoggedIn && !isCreatePost && (
+          <li className="nav-item mr-3">
+            <Link to="/create-post" className="btn btn-dark">
+              Create Post
+            </Link>
+          </li>
+        )}
+        <li className="nav-item ml-2">
+          {isLoggedIn ? (
+            <button
+              type="button"
+              className="btn nav-link"
+              onClick={handleLogout}
+            >
+              logout
+            </button>
+          ) : (
+            <Link className=" nav-link" to="/login">
+              Login
+            </Link>
+          )}
+        </li>
+      </ul>
     </nav>
   );
 };

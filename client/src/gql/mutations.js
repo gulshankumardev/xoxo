@@ -33,3 +33,52 @@ export const LOGOUT_MUTATION = gql`
     logout @client
   }
 `;
+
+export const CREATE_POST_MUTATION = gql`
+  mutation createPostMutation($title: String!, $description: String!) {
+    createPost(title: $title, description: $description) {
+      id
+      title
+      description
+      createdAt
+      updatedAt
+      author {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const DELETE_POST_MUTATION = gql`
+  mutation deletePostMutation($postId: String!) {
+    deletePost(postId: $postId) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_POST_MUTATION = gql`
+  mutation updatePostMutation(
+    $postId: String!
+    $title: String!
+    $description: String!
+  ) {
+    updatePost(postId: $postId, title: $title, description: $description) {
+      id
+      title
+      description
+    }
+  }
+`;
+
+export const TOGGLE_POST_LIKE_QUERY = gql`
+  mutation togglePostLikeQuery($postId: String!) {
+    togglePostLikes(postId: $postId) {
+      id
+      likedBy {
+        id
+      }
+    }
+  }
+`;
