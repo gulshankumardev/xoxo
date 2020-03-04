@@ -2,6 +2,7 @@ const {
   createEncryptedPassword,
   createSignedToken,
   validatePassword,
+  getUserId,
 } = require('../helpers');
 
 const mutation = {
@@ -46,6 +47,73 @@ const mutation = {
       user,
       token,
     };
+  },
+
+  createPost: async (_, { title, description }, ctx) => {
+    const userId = await getUserId(ctx);
+
+    const post = await ctx.prisma.createPost({
+      title,
+      description,
+      author: {
+        connect: {
+          id: userId,
+        },
+      },
+    });
+
+    return post;
+  },
+
+  updatePost: async (_, { postId, ...restParams }, ctx) => {
+    const userId = await getUserId(ctx);
+
+    const postAuthor = await ctx.prisma.post({ id: postId }).author();
+    if (!postAuthor) throw new Error("Requested post doesn't exist");
+
+    if (userId !== postAuthor.id) throw new Error('Not authorized!');
+
+    const post = await ctx.prisma.updatePost({
+      data: restParams,
+      where: {
+        id: postId,
+      },
+    });
+
+    return post;
+  },
+
+  deletePost: async (_, { postId }, ctx) => {
+    const userId = await getUserId(ctx);
+
+    const postAuthor = await ctx.prisma.post({ id: postId }).author();
+    if (!postAuthor) throw new Error("Requested post doesn't exist");
+
+    if (userId !== postAuthor.id) throw new Error('Not authorized!');
+
+    const post = await ctx.prisma.deletePost({ id: postId });
+
+    return post;
+  },
+
+  togglePostLikes: async (_, { postId }, ctx) => {
+    const userId = await getUserId(ctx);
+
+    const postAuthor = await ctx.prisma.post({ id: postId }).author();
+    if (!postAuthor) throw new Error("Requested post doesn't exist");
+
+    const likedByUsers = await ctx.prisma.post({ id: postId }).likedBy();
+
+    const likedOrDislike = likedByUsers.some(user => user.id === userId)
+      ? { disconnect: { id: userId } }
+      : { connect: { id: userId } };
+
+    const post = ctx.prisma.updatePost({
+      where: { id: postId },
+      data: { likedBy: likedOrDislike },
+    });
+
+    return post;
   },
 };
 

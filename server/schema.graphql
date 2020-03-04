@@ -3,11 +3,17 @@ scalar Date
 type Query {
   me: User!
   users: [User!]!
+  posts: [Post!]!
+  postById: Post!
 }
 
 type Mutation {
   signup(name: String!, email: String!, password: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
+  createPost(title: String!, description: String!): Post!
+  updatePost(postId: String!, title: String!, description: String!): Post!
+  deletePost(postId: String!): Post!
+  togglePostLikes(postId: String!): Post!
 }
 
 type User {
